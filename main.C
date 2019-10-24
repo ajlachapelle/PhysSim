@@ -3,25 +3,6 @@
 
 using namespace std;
 
-vector <double> addVectors(vector <double> v1, vector <double> v2)
-{
-  //if (v1.size() < v2.size)
-    // Throw exception?
-  int len = v1.size;
-  vector <double> vSum;
-  for (int i=0; i < len; i++)
-    vSum.push_back(v1[i] + v2[i]);
-}
-
-vector <double> scaleVector(vector <double> v, double scalar)
-{
-  int len = v.size();
-  vector <double> vScaled;
-  for (int i=0; i < len; i++)
-    vScaled.push_back(v[i] *= scalar);
-  return vScaled;
-}
-
 int main()
 {
   char command = 0;
