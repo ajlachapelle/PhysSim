@@ -5,52 +5,90 @@
 
 using namespace std;
 
+// Add vector 2 to vector 1
 vector<double> addVectors(vector<double> v1, vector<double> v2)
 {
-  //if (v1.size() < v2.size)
-    // Throw exception?
-  int size = () ? v1.size() : ; // Does size have overhead, or can it be placed in the for loop declaration?
-  vector<double> vSum (size);
-  for (int i=0; i < len; ++i)
-    vSum.push_back(v1[i] + v2[i]);
+  //if (v1.size() != v2.size())
+    //throw ;
+  //int size = v1.size(); // Does size have overhead, or can it be placed in the for loop declaration?
+  for (int i=0; i < v1.size(); ++i)
+    v1[i] += v2[i];
+  return v1;
 }
 
+// Multiply a vector by a scalar
 vector<double> scaleVector(vector<double> v, double scalar)
 {
-  int len = v.size(); // Does size have overhead, or can it be placed in the for loop declaration?
-  vector<double> vScaled;
-  for (int i=0; i < len; ++i)
-    vScaled.push_back(v[i] *= scalar);
-  return vScaled;
+  //int size = v.size(); // Does size have overhead, or can it be placed in the for loop declaration?
+  for (int i=0; i < v.size(); ++i)
+    v[i] *= scalar;
+  return v;
 }
 
-void swapVectors()
+// Swap two rows of a vector matrix
+vector<vector<double>> swapRows(vector<vector<double>> matrix, int rowIndex1, int rowIndex2)
 {
-
+  matrix[rowIndex1].swap(matrix[rowIndex2]);
+  return matrix;
 }
 
-vector<vector<double>> reduceMatrix(vector<vector<double>> inMatrix)
+//
+vector<vector<double>> swapPivotFast(vector<vector<double>> matrix, int pivotCol)
 {
-  int rowCount = inMatrix.size();
-  //int colCount = inMatrix[0].size(); - if we assume that all equations have the same number of unknowns, we could just check the size from an arbitrary column now
-  vector<vector<double>> outMatrix (rowCount, ###);
+  //swap row w/ greatest entry w/ pivot
+  return matrix;
+}
+
+//
+vector<vector<double>> swapPivotPrecise(vector<vector<double>> matrix, int pivotCol)
+{
+  //if zero swap first nonzero w/ pivot
+  return matrix;
+}
+
+// Row reduce a matrix to echelon form
+vector<vector<double>> rowReduce(vector<vector<double>> matrix)
+{
+  int rowCount = matrix.size();
   //
   for(int i=0; i<rowCount; ++i)
   {
-    outMatrix[i].resize(inMatrix[i].size()) // If line 30 is implemented we can replace the size check with a variable; does the size check have more overhead?
-    //tmp = scale(vi, -1*vi+1[i-1]/vi[i-1])
-    //vi+1 = add(vi+1, tmp)
+    //swapPivotPrecise();
+    for (int k=i+1; k<rowCount; ++k)
+    {
+      vector<double> temp (scaleVector(matrix[i], -1*matrix[k][i]/matrix[i][i])); // Scale row_i so that row_i+row_k has a zero as the ith element
+      matrix[k] = addVectors(matrix[k], temp);
+    }
   }
   //
-  return outMatrix;
+  for (int i=rowCount; i>0; --i)
+  {
+    for (int k=i-1; k>0; --k)
+    {
+      vector<double> temp (scaleVector(matrix[i-1], -1*matrix[k-1][i-1]/matrix[i-1][i-1])); // Scale row_i so that row_i+row_k has a zero as the ith element
+      matrix[k-1] = addVectors(matrix[k-1], temp);
+    }
+  }
+  // Scale all pivots to 1
+  for(int i=0; i<rowCount; ++i)
+    matrix[i] = scaleVector(matrix[i], 1/matrix[i][i]);
+  return matrix;
 }
 
-//for()
-//tmp = scale(vn-i, -1*vn-i[m-i-1]/vn[m-i-1])
-//vn-i-1 = add(vn-i, tmp)
-//for()
-//tmp = scale (vi, 1/vi[i-1])
-//vi = tmp
+
+void printMatrix(vector<vector<double>> matrix)
+{
+  for (vector<double> rowVector : matrix)
+  {
+    cout << "[";
+    for (double component : rowVector)
+    {
+      cout << " " << component << " ";
+    }
+    cout << "]" << endl;
+  }
+
+}
 
 int main()
 {
@@ -70,7 +108,11 @@ int main()
       for (int j=0; j<numUnknowns+1; j++)
         cin >> coeffMatrix[i][j];
     }
-    //coeffMatrix = reduceMatrix(coeffMatrix);
+    cout << "Initial Matrix:" << endl;
+    printMatrix(coeffMatrix);
+    cout << "Reduced Echelon Form Matrix:" << endl;
+    coeffMatrix = rowReduce(coeffMatrix);
+    printMatrix(coeffMatrix);
   }
   else
     cout << "Not solvable" << endl;

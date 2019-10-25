@@ -3,6 +3,8 @@
 
 using namespace std;
 
+//enum equations of motion
+
 int main()
 {
   char command = 0;
@@ -26,6 +28,6 @@ int main()
       System.push_back(newObject);
     }; break;
   }
-  while (command != 'E');
+  while (command != 'Q');
   return 0;
 }
