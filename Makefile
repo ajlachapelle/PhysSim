@@ -1,11 +1,11 @@
-SRC=start.C object.C equation.C
+SRC=main.C
 OBJ=$(SRC:.C=.o)
 
 prog: $(OBJ)
-	g++ $(OBJ) -o start
+	g++ $(OBJ) -o PhysSim
 
 .C.o: $<
-	g++  -g -I. -c $<
+	g++  -g  -c $<
 
 clean:
-	rm *.o start
+	rm *.o PhysSim
