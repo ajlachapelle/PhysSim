@@ -46,6 +46,7 @@ vector<vector<double>> swapPivotPrecise(vector<vector<double>> matrix, int pivot
   return matrix;
 }
 
+//TODO: Generalize rowReduce algorithm
 // Row reduce a matrix to echelon form
 vector<vector<double>> rowReduce(vector<vector<double>> matrix)
 {
@@ -75,7 +76,6 @@ vector<vector<double>> rowReduce(vector<vector<double>> matrix)
   return matrix;
 }
 
-
 void printMatrix(vector<vector<double>> matrix)
 {
   for (vector<double> rowVector : matrix)
@@ -87,10 +87,9 @@ void printMatrix(vector<vector<double>> matrix)
     }
     cout << "]" << endl;
   }
-
 }
 
-int main()
+void matrixTest()
 {
   int numEquations = 0;
   int numUnknowns = 0;
@@ -116,5 +115,4 @@ int main()
   }
   else
     cout << "Not solvable" << endl;
-  return 0;
 }
