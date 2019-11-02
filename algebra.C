@@ -1,4 +1,4 @@
-// Linear Algebra Solver
+// Functions and classes for finding unknowns algebraically
 
 #include <iostream>
 #include <vector>
@@ -25,54 +25,64 @@ vector<double> scaleVector(vector<double> v, double scalar)
   return v;
 }
 
-// Swap two rows of a vector matrix
-vector<vector<double>> swapRows(vector<vector<double>> matrix, int rowIndex1, int rowIndex2)
-{
-  matrix[rowIndex1].swap(matrix[rowIndex2]);
-  return matrix;
-}
-
-//
-vector<vector<double>> swapPivotFast(vector<vector<double>> matrix, int pivotCol)
-{
-  //swap row w/ greatest entry w/ pivot
-  return matrix;
-}
-
-//
-vector<vector<double>> swapPivotPrecise(vector<vector<double>> matrix, int pivotCol)
-{
-  //if zero swap first nonzero w/ pivot
-  return matrix;
-}
 
 //TODO: Generalize rowReduce algorithm
 // Row reduce a matrix to echelon form
-vector<vector<double>> rowReduce(vector<vector<double>> matrix)
+vector<vector<double>> rowReduce(vector<vector<double>> matrix)//, bool fastPivot = true)
 {
   int rowCount = matrix.size();
-  //
-  for(int i=0; i<rowCount; ++i)
+  //int colCount = matrix[0].size();
+  vector<int> pivots; // Tracks pivot positions in the format [pRow1, pCol1, pRow2 ...]
+
+  // Initial elimination pass; puts matrix into triangular form
+  for(int pivotRow=0, pivotCol=0; pivotRow<rowCount; ++pivotRow)
   {
-    //swapPivotPrecise();
-    for (int k=i+1; k<rowCount; ++k)
+    bool validPivot = (matrix[pivotRow][pivotCol] != 0); // Tracks whether there are any valid pivot entries in the current column
+
+    // Fast/greedy pivot: pivot as fast as possible, and only if necessary
+    if (true)//(fastPivot)
+      for (int row=pivotRow+1; row<rowCount && !validPivot; ++row)
+        if (matrix[row][pivotCol] > 0)
+        {
+          validPivot = true;
+          matrix[pivotRow].swap(matrix[row]);
+        }
+    // Partial pivot:
+    //else if (!fastPivot)
+      //for (int row=pivotRow+1; row<rowCount; ++row)
+
+    if (!validPivot)
+      continue;
+
+    // if pivot col is the augmented column, the matrix is inconsistent, break and handle exception?
+    // Make sure that [... 0 0] won't pick the augmented column as the pivot
+
+    // Elimination step
+    for (int row=pivotRow+1; row<rowCount; ++row)
     {
-      vector<double> temp (scaleVector(matrix[i], -1*matrix[k][i]/matrix[i][i])); // Scale row_i so that row_i+row_k has a zero as the ith element
-      matrix[k] = addVectors(matrix[k], temp);
+      vector<double> temp (scaleVector(matrix[pivotRow], -1*matrix[row][pivotCol]/matrix[pivotRow][pivotCol]));
+      matrix[row] = addVectors(matrix[row], temp);
     }
+    pivots.push_back(pivotRow);
+    pivots.push_back(pivotCol);
+    ++pivotCol;
   }
-  //
-  for (int i=rowCount; i>0; --i)
+
+  // Back-substitution
+  for (int i=pivots.size()-1; i>0; i-=2)
   {
-    for (int k=i-1; k>0; --k)
+    int pivotRow = pivots[i-1];
+    int pivotCol = pivots[i];
+    for (int row=pivotRow-1; row>=0; --row)
     {
-      vector<double> temp (scaleVector(matrix[i-1], -1*matrix[k-1][i-1]/matrix[i-1][i-1])); // Scale row_i so that row_i+row_k has a zero as the ith element
-      matrix[k-1] = addVectors(matrix[k-1], temp);
+      vector<double> temp (scaleVector(matrix[pivotRow], -1*matrix[row][pivotCol]/matrix[pivotRow][pivotCol]));
+      matrix[row] = addVectors(matrix[row], temp);
     }
+
+    // When there are no more operations to apply to the row, scale its pivot entry to 1
+    matrix[pivotRow] = scaleVector(matrix[pivotRow], 1/matrix[pivotRow][pivotCol]);
+    // If this only ever applies to pivot rows, are there situations where a row could get skipped on this step?
   }
-  // Scale all pivots to 1
-  for(int i=0; i<rowCount; ++i)
-    matrix[i] = scaleVector(matrix[i], 1/matrix[i][i]);
   return matrix;
 }
 
