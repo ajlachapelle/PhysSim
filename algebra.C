@@ -25,6 +25,44 @@ vector<double> scaleVector(vector<double> v, double scalar)
   return v;
 }
 
+// Remove any zero rows from a matrix
+vector<vector<double>> trimRows(vector<vector<double>> matrix)
+{
+  for (int row=0; row<matrix.size(); ++row)
+  {
+    bool validEntry = false;
+    for (int col=0; col<matrix[row].size() && !validEntry; ++col)
+      if (matrix[row][col] != 0)
+        validEntry = true;
+    if (!validEntry)
+    {
+      matrix.erase(matrix.begin()+row);
+      // matrix.shrink...
+      --row;
+    }
+  }
+  return matrix;
+}
+
+// Remove any zero columns from a matrix (excluding the last column)
+vector<vector<double>> trimCols(vector<vector<double>> matrix)
+{
+  for (int col=0; col<matrix[0].size()-1; ++col)
+  {
+    bool validEntry = false;
+    for (int row=0; row<matrix.size() && !validEntry; ++row)
+      if (matrix[row][col] != 0)
+        validEntry = true;
+    if (!validEntry)
+    {
+      for (int row=0; row<matrix.size(); ++row)
+        matrix[row].erase(matrix[row].begin()+col);
+      // matrix.shrink...
+      --col;
+    }
+  }
+  return matrix;
+}
 
 //TODO: Generalize rowReduce algorithm
 // Row reduce a matrix to echelon form
@@ -80,8 +118,8 @@ vector<vector<double>> rowReduce(vector<vector<double>> matrix)//, bool fastPivo
     }
 
     // When there are no more operations to apply to the row, scale its pivot entry to 1
+    // If a row is not a pivot row, then it is a zero vector, and doesn't need to be scaled
     matrix[pivotRow] = scaleVector(matrix[pivotRow], 1/matrix[pivotRow][pivotCol]);
-    // If this only ever applies to pivot rows, are there situations where a row could get skipped on this step?
   }
   return matrix;
 }

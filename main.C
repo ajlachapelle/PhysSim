@@ -11,12 +11,14 @@ int main()
   char command = 0;
   vector<vector<double>> system;
 
-  do
+  do // while (command != 'Q' && command != 'q');
   {
-    cout << "(A)dd an object, (P)rint matrix, or (Q)uit: ";
+    cout << "(A)dd an object, (P)rint matrix, (R)educe matrix, (T)rim matrix, (C)lear system, or (Q)uit: ";
     cin >> command;
     if (command == 'A' || command == 'a')
     {
+      // Prompt for info
+      // system.addObject(x, y);
       vector<double> newObject;
       double x, v, a = 0;
       cout << "Enter x v a: ";
@@ -27,11 +29,18 @@ int main()
       cout << "Object trajectory: " << .5*a << "t^2 + " << v << "t + " << x << endl;
       system.push_back(newObject);
     }
-    if (command == 'P' || command == 'p')
-    {
+    else if (command == 'P' || command == 'p')
       printMatrix(system);
+    else if (command == 'R' || command == 'r')
+      system = rowReduce(system);
+    else if (command == 'T' || command == 't')
+    {
+      system = trimRows(system);
+      system = trimCols(system);
     }
-    }
-    while (command != 'Q' && command != 'q');
+    else if (command == 'C' || command == 'c')
+      system.clear();
+      //system.?
+  } while (command != 'Q' && command != 'q');
   return 0;
 }
