@@ -30,7 +30,7 @@ int main()
       // testResult << printMatrix(matrix);
       printMatrix(matrix);
       matrix.clear();
-      cout << endl << endl;
+      cout << endl;
     }
     else
     {
