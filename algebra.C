@@ -25,6 +25,13 @@ vector<double> scaleVector(vector<double> v, double scalar)
   return v;
 }
 
+// Add a column to a matrix
+vector<vector<double>> addCol(vector<vector<double>> matrix)
+{
+  for (vector<double> rowVector : matrix)
+    rowVector.push_back(0);
+  return matrix;
+}
 // Remove any zero rows from a matrix
 vector<vector<double>> trimRows(vector<vector<double>> matrix)
 {
@@ -124,6 +131,7 @@ vector<vector<double>> rowReduce(vector<vector<double>> matrix)//, bool fastPivo
   return matrix;
 }
 
+// Change to return a char buffer, and let the caller handle output? (then change name to matrixToString or something)
 void printMatrix(vector<vector<double>> matrix)
 {
   for (vector<double> rowVector : matrix)
@@ -135,32 +143,4 @@ void printMatrix(vector<vector<double>> matrix)
     }
     cout << "]" << endl;
   }
-}
-
-void matrixTest()
-{
-  int numEquations = 0;
-  int numUnknowns = 0;
-  cout << "How many equations?" << endl;
-  cin >> numEquations;
-  vector<vector<double>> matrix;
-  cout << "How many unknowns?" << endl;
-  cin >> numUnknowns;
-  if (numEquations >= numUnknowns)
-  {
-    vector<vector<double>> coeffMatrix (numEquations, vector<double> (numUnknowns+1));
-    for (int i=0; i<numEquations; ++i)
-    {
-      cout << "Enter coefficients of equation " << i+1 << ":";
-      for (int j=0; j<numUnknowns+1; j++)
-        cin >> coeffMatrix[i][j];
-    }
-    cout << "Initial Matrix:" << endl;
-    printMatrix(coeffMatrix);
-    cout << "Reduced Echelon Form Matrix:" << endl;
-    coeffMatrix = rowReduce(coeffMatrix);
-    printMatrix(coeffMatrix);
-  }
-  else
-    cout << "Not solvable" << endl;
 }

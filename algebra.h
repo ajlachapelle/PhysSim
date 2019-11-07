@@ -14,5 +14,3 @@ vector<vector<double>> trimCols(vector<vector<double>> matrix);
 vector<vector<double>> rowReduce(vector<vector<double>> matrix);
 
 void printMatrix(vector<vector<double>> matrix);
-
-void matrixTest();
