@@ -5,6 +5,20 @@
 
 using namespace std;
 
+// Change to return a char buffer, and let the caller handle output? (then change name to matrixToString or something)
+void printMatrix(vector<vector<double>> matrix)
+{
+  for (vector<double> rowVector : matrix)
+  {
+    cout << "[";
+    for (double component : rowVector)
+    {
+      cout << " " << component << " ";
+    }
+    cout << "]" << endl;
+  }
+}
+
 // Add vector 2 to vector 1
 vector<double> addVectors(vector<double> v1, vector<double> v2)
 {
@@ -71,16 +85,16 @@ vector<vector<double>> trimCols(vector<vector<double>> matrix)
   return matrix;
 }
 
-//TODO: Generalize rowReduce algorithm
 // Row reduce a matrix to echelon form
 vector<vector<double>> rowReduce(vector<vector<double>> matrix)//, bool fastPivot = true)
 {
   int rowCount = matrix.size();
-  //int colCount = matrix[0].size();
+  int varCount = matrix[0].size()-1; // The number of variables/unknowns in the linear system
   vector<int> pivots; // Tracks pivot positions in the format [pRow1, pCol1, pRow2 ...]
 
-  // Initial elimination pass; puts matrix into triangular form
-  for(int pivotRow=0, pivotCol=0; pivotRow<rowCount; ++pivotRow)
+  // Initial elimination pass; puts matrix into augmented triangular form
+  // If the pivot column reaches the augmented column, we can infer that all remaining rows have been eliminated
+  for(int pivotRow=0, pivotCol=0; pivotCol<varCount && pivotRow<rowCount; ++pivotCol)
   {
     bool validPivot = (matrix[pivotRow][pivotCol] != 0); // Tracks whether there are any valid pivot entries in the current column
 
@@ -96,21 +110,19 @@ vector<vector<double>> rowReduce(vector<vector<double>> matrix)//, bool fastPivo
     //else if (!fastPivot)
       //for (int row=pivotRow+1; row<rowCount; ++row)
 
-    if (!validPivot)
-      continue;
-
-    // if pivot col is the augmented column, the matrix is inconsistent, break and handle exception?
-    // Make sure that [... 0 0] won't pick the augmented column as the pivot
-
-    // Elimination step
-    for (int row=pivotRow+1; row<rowCount; ++row)
+    if (validPivot)
     {
-      vector<double> temp (scaleVector(matrix[pivotRow], -1*matrix[row][pivotCol]/matrix[pivotRow][pivotCol]));
-      matrix[row] = addVectors(matrix[row], temp);
+      pivots.push_back(pivotRow);
+      pivots.push_back(pivotCol);
+
+      // Elimination step
+      for (int row=pivotRow+1; row<rowCount; ++row)
+      {
+        vector<double> temp (scaleVector(matrix[pivotRow], -1*matrix[row][pivotCol]/matrix[pivotRow][pivotCol]));
+        matrix[row] = addVectors(matrix[row], temp);
+      }
+      ++pivotRow;
     }
-    pivots.push_back(pivotRow);
-    pivots.push_back(pivotCol);
-    ++pivotCol;
   }
 
   // Back-substitution
@@ -129,18 +141,4 @@ vector<vector<double>> rowReduce(vector<vector<double>> matrix)//, bool fastPivo
     matrix[pivotRow] = scaleVector(matrix[pivotRow], 1/matrix[pivotRow][pivotCol]);
   }
   return matrix;
-}
-
-// Change to return a char buffer, and let the caller handle output? (then change name to matrixToString or something)
-void printMatrix(vector<vector<double>> matrix)
-{
-  for (vector<double> rowVector : matrix)
-  {
-    cout << "[";
-    for (double component : rowVector)
-    {
-      cout << " " << component << " ";
-    }
-    cout << "]" << endl;
-  }
 }
