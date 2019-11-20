@@ -25,9 +25,13 @@ int main()
     {
       // printMatrix(matrix);
       // cout << endl;
-      matrix = rowReduce(matrix);
+      vector<vector<double>> pbvMatrix = rowReduce(matrix);
+      rowReduce(&matrix);
       // TODO: once printMatrix has been rewritten, direct output to file
       // testResult << printMatrix(matrix);
+      printMatrix(pbvMatrix);
+      pbvMatrix.clear();
+      cout << "Pass by reference result:" << endl;
       printMatrix(matrix);
       matrix.clear();
       cout << endl;
