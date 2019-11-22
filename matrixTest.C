@@ -8,6 +8,7 @@
 #include<string>
 #include<vector>
 #include<algebra.h>
+#include<chrono>
 
 using namespace std;
 
@@ -25,14 +26,25 @@ int main()
     {
       // printMatrix(matrix);
       // cout << endl;
+
+      auto pbvStart = chrono::high_resolution_clock::now();
       vector<vector<double>> pbvMatrix = rowReduce(matrix);
+      auto pbvStop = chrono::high_resolution_clock::now();
+      auto pbvDuration = chrono::duration_cast<chrono::microseconds>(pbvStop - pbvStart);
+
+      auto pbrStart = chrono::high_resolution_clock::now();
       rowReduce(&matrix);
+      auto pbrStop = chrono::high_resolution_clock::now();
+      auto pbrDuration = chrono::duration_cast<chrono::microseconds>(pbrStop - pbrStart);
+
       // TODO: once printMatrix has been rewritten, direct output to file
       // testResult << printMatrix(matrix);
       printMatrix(pbvMatrix);
+      cout << pbvDuration.count() << " \u03BCs" << endl;
       pbvMatrix.clear();
       cout << "Pass by reference result:" << endl;
       printMatrix(matrix);
+      cout << pbrDuration.count() << " \u03BCs" << endl;
       matrix.clear();
       cout << endl;
     }
