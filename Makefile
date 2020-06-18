@@ -1,14 +1,14 @@
-all: PhysSim MatrixTest
+# all: PhysSim MatrixTest
 
-SRC=main.C algebra.C algebra.h
+SRC=main.C menu.C menu.h
 OBJ=$(SRC:.C=.o)
 PhysSim: $(OBJ)
 	g++ $(OBJ) -o PhysSim
 
-SRC2=matrixTest.C algebra.C algebra.h
-OBJ2=$(SRC2:.C=.o)
-MatrixTest: $(OBJ2)
-	g++ $(OBJ2) -o MatrixTest
+# SRC2=matrixTest.C algebra.C algebra.h
+# OBJ2=$(SRC2:.C=.o)
+# MatrixTest: $(OBJ2)
+# 	g++ $(OBJ2) -o MatrixTest
 
 .C.o: $<
 	g++  -g  -I.  -c $<
