@@ -11,18 +11,42 @@ Menu::Menu(string s)
 }
 
 //
-void Menu::open()
+MainMenu::MainMenu(string s): Menu(s){}
+
+//
+void MainMenu::open()
 {
-  char command = 0;
-  do // while (command != 'Q' && command != 'q');
+  string command = "";
+  do // while (tolower(command) != 'x');
   {
     cout << message << endl;
-    cin >> command;
-    if (tolower(command) == 'n')
+    getline(cin, command);
+    if (command == "test")
     {
-      string newMessage = "Sub-" + message;
-      Menu newTestMenu = Menu(newMessage);
-      newTestMenu.open();
+      string newMessage = "Choose a test to run";
+      TestMenu testMenu = TestMenu(newMessage);
+      testMenu.open();
     }
-  } while (tolower(command) != 'x');
+  } while (command != "exit");
+}
+
+
+//
+TestMenu::TestMenu(string s): Menu(s){}
+
+//
+void TestMenu::open()
+{
+  string command = "";
+  do // while (tolower(command) != 'x');
+  {
+    cout << message << endl;
+    getline(cin, command);
+    if (command == "submenu")
+    {
+      string newMessage = "*" + message;
+      TestMenu testMenu = TestMenu(newMessage);
+      testMenu.open();
+    }
+  } while (command != "exit");
 }

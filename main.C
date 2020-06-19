@@ -8,8 +8,8 @@ using namespace std;
 
 int main()
 {
-  string message = "Menu\n(N)ew menu or E(x)it menu";
-  Menu mainMenu = Menu(message);
+  string message = "Main Menu\ntest: Enter test menu\nexit: Exit menu";
+  MainMenu mainMenu = MainMenu(message);
   mainMenu.open();
 
   return 0;
