@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <menu.h>
+#include <TestTheory.h>
 
 using namespace std;
 
@@ -48,5 +49,21 @@ void TestMenu::open()
       TestMenu testMenu = TestMenu(newMessage);
       testMenu.open();
     }
+    if (command == "physSystem")
+    {
+      double t, a, v, x, dt = 0;
+      cout << "Enter system state (t, a, v, x):" << endl;
+      cin >> t >> a >> v >> x;
+      TestSystem system = TestSystem(t, a, v, x);
+      TestModel model = TestModel();
+      cout << "Enter change in time:" << endl;
+      cin >> dt;
+      model.evolve(&system, dt);
+      cout << "t: " << system.state[0] << endl << "a, " << system.state[1] << endl << "v, " << system.state[2] << endl << "x, " << system.state[3] << endl;
+    }
+    // if (command == rowReduce)
+    // {
+    //
+    // }
   } while (command != "exit");
 }
