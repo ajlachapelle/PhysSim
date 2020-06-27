@@ -6,6 +6,7 @@
 
 using namespace std;
 
+//
 Menu::Menu(string s)
 {
   message = s;
@@ -39,10 +40,11 @@ TestMenu::TestMenu(string s): Menu(s){}
 void TestMenu::open()
 {
   string command = "";
-  do // while (tolower(command) != 'x');
+  do // while (tolower(command) != 'exit');
   {
     cout << message << endl;
     getline(cin, command);
+    // Bug: when returning from tests that require input, message prints twice, presumably because a blank input stream is being read without an input prompt
     if (command == "submenu")
     {
       string newMessage = "*" + message;

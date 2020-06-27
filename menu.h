@@ -1,9 +1,10 @@
-//
+// Definitions for menu objects
 
 #include <string>
 
 using namespace std;
 
+// Base menu class, no defined behavior when opened
 class Menu
 {
 public:
@@ -14,6 +15,7 @@ protected:
   string message = "";
 };
 
+//
 class MainMenu: Menu
 {
 public:
@@ -21,6 +23,7 @@ public:
   void open();
 };
 
+// Menu for accessing various test routines
 class TestMenu: Menu
 {
 public:
