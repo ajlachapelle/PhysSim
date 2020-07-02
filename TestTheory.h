@@ -16,4 +16,5 @@ class TestModel : PhysModel
 {
 public:
   void evolve(System* pS, double dt);
+  void evolve(TestSystem* pS, double dt);
 };

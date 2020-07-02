@@ -58,5 +58,5 @@ class PhysModel
 {
 public:
   // Computes the change in a system's state over time (or some other parameter)
-  virtual void evolve(System* pS, double delta) = 0;
+  void evolve(System* pS, double delta);
 };

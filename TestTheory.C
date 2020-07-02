@@ -1,5 +1,8 @@
 //
+#include <iostream>
 #include <TestTheory.h>
+
+using namespace std;
 
 TestSystem::TestSystem(double t, double a, double v, double x)
 {
@@ -10,7 +13,7 @@ TestSystem::TestSystem(double t, double a, double v, double x)
 }
 
 //
-void TestModel::evolve(System* pS, double dt)
+void TestModel::evolve(TestSystem* pS, double dt)
 {
   pS->state[3] += pS->state[2]*dt + .5*dt*dt;
   pS->state[2] += pS->state[1]*dt;
