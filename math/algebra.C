@@ -2,21 +2,23 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
-// TODO: Change to return a char buffer, and let the caller handle output? (then change name to matrixToString or something)
-void printMatrix(vector<vector<double>> matrix)
+//
+void printMatrix(const vector<vector<double>> matrix) //>>*
 {
   for (vector<double> rowVector : matrix)
   {
-    cout << "[";
+    cout << "[\t";
     for (double component : rowVector)
     {
-      cout << " " << component << " ";
+      cout << component << "\t";
     }
     cout << "]" << endl;
   }
+  //return ;
 }
 
 // Returns the sum of two vectors
