@@ -1,5 +1,6 @@
 //
-#include<string>
+#include <string>
+#include <vector>
 
 class MathVector
 {
@@ -8,7 +9,7 @@ public:
 protected:
 
 private:
-vector<double> coefficients; // Abbreviate name? Does this data type remove the need for separate quantity objects?
+std::vector<double> coefficients; // Abbreviate name? Does this data type remove the need for separate quantity objects?
 //Might want to switch from vector<double> to vector<Quantity> or something, to keep track of precision
 // Or, add a second vector with precision info:
   // vector<int> precision;

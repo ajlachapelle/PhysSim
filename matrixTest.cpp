@@ -2,13 +2,13 @@
 //
 
 // #include<stdio.h>
-#include<iostream>
-#include<fstream>
-#include<sstream>
-#include<string>
-#include<vector>
-#include<algebra.h>
-#include<chrono>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <algebra.hpp>
+#include <chrono>
 
 using namespace std;
 

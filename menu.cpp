@@ -1,8 +1,7 @@
 //
 #include <iostream>
 #include <string>
-#include <menu.h>
-#include <TestTheory.h>
+#include <menu.hpp>
 
 using namespace std;
 
