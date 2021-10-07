@@ -1,1 +1,1 @@
-DEL PhysSim.exe
+DEL *.exe

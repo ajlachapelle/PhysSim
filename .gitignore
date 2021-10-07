@@ -3,7 +3,6 @@
 
 # Executables
 PhysSim
-PhysSim.exe
-MatrixTest
+*.exe
 
 .vscode/*

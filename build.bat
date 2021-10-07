@@ -1,1 +1,1 @@
-g++ -o PhysSim main.cpp models/TestModel.cpp -I. -I./models
+g++ -o demo demo.cpp models/TestModel.cpp -I. -I./models
