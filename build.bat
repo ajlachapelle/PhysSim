@@ -1,1 +1,1 @@
-g++ -o demo demo.cpp models/TestModel.cpp -I. -I./models
+g++ -g -o demo demo.cpp models/TestModel.cpp -I. -I./models
